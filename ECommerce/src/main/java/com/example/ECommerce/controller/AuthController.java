@@ -1,5 +1,6 @@
 package com.example.ECommerce.controller;
 
+import com.example.ECommerce.Model.Role;
 import com.example.ECommerce.Model.User;
 import com.example.ECommerce.repositories.UserRepository;
 import com.example.ECommerce.utils.JwtUtil;
@@ -26,6 +27,7 @@ public class AuthController {
 
     @PostMapping("/signup")
     public String signup(@RequestBody User user) {
+
         if (user.getEmail() == null || user.getEmail().trim().isEmpty()) {
             throw new RuntimeException("Enter your Email");
         }
@@ -33,6 +35,7 @@ public class AuthController {
             throw new RuntimeException("Email already registered");
         }
         user.setPassword(encoder.encode(user.getPassword()));
+        user.setRole(Role.CUSTOMER);
         repo.save(user);
         return "Signup successful";
     }
@@ -43,7 +46,7 @@ public class AuthController {
                 .orElseThrow(() -> new RuntimeException("User not found"));
 
         if (encoder.matches(user.getPassword(), dbUser.getPassword())) {
-            return jwtUtil.generateToken(dbUser.getEmail());
+            return jwtUtil.generateToken(dbUser.getId(),dbUser.getRole().name());
         }
 
         throw new RuntimeException("Invalid credentials");

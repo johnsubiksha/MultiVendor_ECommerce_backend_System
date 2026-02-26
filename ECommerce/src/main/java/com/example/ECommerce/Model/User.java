@@ -15,15 +15,15 @@ public class User {
     private String password;
 
     // 🔐 REQUIRED FOR SPRING SECURITY
-    private String role;
+    private Role role;
 
     // getters & setters
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

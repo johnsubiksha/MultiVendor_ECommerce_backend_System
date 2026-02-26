@@ -20,9 +20,10 @@ public class JwtUtil {
     }
 
     // ✅ Generate JWT
-    public String generateToken(String username) {
+    public String generateToken(String userId, String role) {
         return Jwts.builder()
-                .setSubject(username)
+                .setSubject(userId)
+                .claim("role",role)
                 .setIssuedAt(new Date())
                 .setExpiration(new Date(System.currentTimeMillis() + EXPIRATION))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
@@ -30,13 +31,13 @@ public class JwtUtil {
     }
 
     // ✅ Extract username
-    public String extractUsername(String token) {
+    public String extractUserId(String token) {
         return extractAllClaims(token).getSubject();
     }
 
     // ✅ Validate token
-    public boolean validateToken(String token, String username) {
-        return extractUsername(token).equals(username) && !isTokenExpired(token);
+    public boolean validateToken(String token, String userId) {
+        return extractUserId(token).equals(userId) && !isTokenExpired(token);
     }
 
     // 🔒 Helpers
