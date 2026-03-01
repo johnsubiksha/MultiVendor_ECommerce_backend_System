@@ -26,4 +26,5 @@ public class SellerService {
 
         sellerRepository.save(seller);
     }
+
 }
