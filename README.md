@@ -133,7 +133,7 @@ A scalable backend system for a multi-vendor e-commerce platform built using Spr
 1. Clone the repository:
 
 ```bash
-git clone [https://github.com/Vishvapriya-24/your-repo-name](https://github.com/johnsubiksha/MultiVendor_ECommerce_backend_System)
+git clone https://github.com/johnsubiksha/MultiVendor_ECommerce_backend_System
 ```
 
 ---
