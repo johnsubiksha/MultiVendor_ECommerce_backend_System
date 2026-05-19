@@ -3,6 +3,8 @@ package com.example.ECommerce.controller;
 import com.example.ECommerce.Model.Product;
 import com.example.ECommerce.Model.Seller;
 import com.example.ECommerce.Model.User;
+import com.example.ECommerce.repositories.OrderRepository;
+import com.example.ECommerce.repositories.ProductRepository;
 import com.example.ECommerce.repositories.SellerRepository;
 import com.example.ECommerce.repositories.UserRepository;
 import com.example.ECommerce.services.ProductService;
@@ -26,9 +28,14 @@ public class SellerController {
     private SellerRepository sellerrepository;
 
     private final SellerService sellerservice;
+    private final ProductRepository productRepository;
+    private final OrderRepository orderRepository;
 
-    public SellerController(SellerService sellerservice) {
+    public SellerController(SellerService sellerservice,ProductRepository productRepository,
+                            OrderRepository orderRepository) {
         this.sellerservice = sellerservice;
+        this.productRepository = productRepository;
+        this.orderRepository = orderRepository;
     }
 
     @PostMapping("/apply")
@@ -60,5 +67,22 @@ public class SellerController {
         response.put("approved", seller != null && seller.isApproved());
 
         return response;
+    }
+
+    @GetMapping("/dashboard")
+    @PreAuthorize("hasRole('SELLER')")
+    public Map<String, Object> getDashboard(Authentication authentication) {
+
+        String sellerId = authentication.getName();
+
+        Map<String, Object> dashboard = new HashMap<>();
+
+        dashboard.put("totalProducts",
+                productRepository.findBySellerId(sellerId).size());
+
+        dashboard.put("totalOrders",
+                orderRepository.findBySellerId(sellerId).size());
+
+        return dashboard;
     }
 }

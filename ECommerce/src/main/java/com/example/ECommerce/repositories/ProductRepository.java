@@ -7,4 +7,6 @@ import java.util.List;
 
 public interface ProductRepository extends MongoRepository<Product,String> {
     List<Product> findBySellerId(String sellerid);
+    List<Product> findByNameContainingIgnoreCase(String keyword);
+    List<Product> findByCategory(String category);
 }
