@@ -3,6 +3,8 @@ package com.example.ECommerce.Model;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.List;
+
 @Document(collection = "user")
 public class User {
 
@@ -14,10 +16,18 @@ public class User {
     private String email;
     private String password;
 
+
     // 🔐 REQUIRED FOR SPRING SECURITY
     private Role role;
+    private List<Address> addresses;
 
-    // getters & setters
+    public List<Address> getAddresses() {
+        return addresses;
+    }
+
+    public void setAddresses(List<Address> addresses) {
+        this.addresses = addresses;
+    }
 
     public Role getRole() {
         return role;

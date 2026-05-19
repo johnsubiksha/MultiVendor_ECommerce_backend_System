@@ -21,5 +21,5 @@ public class Order {
     private double totalAmount;
     private LocalDateTime orderedAt;
     private LocalDateTime deliveredAt;
-
+    private Address address;
 }

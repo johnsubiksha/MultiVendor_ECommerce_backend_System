@@ -1,5 +1,6 @@
 package com.example.ECommerce.controller;
 
+import com.example.ECommerce.Model.Address;
 import com.example.ECommerce.Model.Cart;
 import com.example.ECommerce.Model.CartItem;
 import com.example.ECommerce.Model.Order;
@@ -82,7 +83,8 @@ public class CartController {
     // CHECKOUT
     @PostMapping("/checkout")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public Order checkout(Authentication authentication) {
+    public Order checkout(@RequestBody Address address,
+                          Authentication authentication) {
 
         String customerId = authentication.getName();
 
@@ -94,6 +96,7 @@ public class CartController {
         order.setItems(cart.getItems());
         order.setTotalAmount(cart.getTotalAmount());
         order.setOrderStatus("PLACED");
+        order.setAddress(address);
         order.setPaymentStatus("PENDING");
         order.setOrderedAt(LocalDateTime.now());
 

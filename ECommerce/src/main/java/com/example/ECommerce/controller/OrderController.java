@@ -1,5 +1,6 @@
 package com.example.ECommerce.controller;
 
+import com.example.ECommerce.Model.Address;
 import com.example.ECommerce.Model.CartItem;
 import com.example.ECommerce.Model.Order;
 import com.example.ECommerce.repositories.OrderRepository;
@@ -22,6 +23,7 @@ public class OrderController {
     @PostMapping("/buy-now")
     @PreAuthorize("hasRole('CUSTOMER')")
     public Order buyNow(@RequestBody CartItem item,
+                        @RequestBody Address address,
                         Authentication authentication) {
 
         String customerId = authentication.getName();
@@ -33,6 +35,7 @@ public class OrderController {
         order.setItems(List.of(item));
         order.setTotalAmount(item.getSubTotal());
         order.setOrderStatus("PLACED");
+        order.setAddress(address);
         order.setPaymentStatus("PENDING");
         order.setOrderedAt(LocalDateTime.now());
 
@@ -43,7 +46,7 @@ public class OrderController {
     @GetMapping("/my-orders")
     @PreAuthorize("hasRole('CUSTOMER')")
     public List<Order> getMyOrders(Authentication authentication) {
-        return orderRepository.findBycustomerId(authentication.getName());
+        return orderRepository.findByCustomerId(authentication.getName());
     }
 
     // UPDATE STATUS (SELLER)
