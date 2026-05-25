@@ -1,9 +1,14 @@
 package com.example.ECommerce.controller;
 
+import com.example.ECommerce.DTO.BuyNowRequest;
 import com.example.ECommerce.Model.Address;
 import com.example.ECommerce.Model.CartItem;
 import com.example.ECommerce.Model.Order;
+import com.example.ECommerce.Model.Product;
+import com.example.ECommerce.repositories.AddressRepository;
 import com.example.ECommerce.repositories.OrderRepository;
+import com.example.ECommerce.repositories.ProductRepository;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -19,23 +24,44 @@ public class OrderController {
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private ProductRepository productRepository;
+
+    @Autowired
+    private AddressRepository addressRepository;
+
     // BUY NOW
     @PostMapping("/buy-now")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public Order buyNow(@RequestBody CartItem item,
-                        @RequestBody Address address,
+    public Order buyNow(@RequestBody BuyNowRequest request,
                         Authentication authentication) {
 
         String customerId = authentication.getName();
 
+        Product product = productRepository.findById(request.getProductId())
+                .orElseThrow(() -> new RuntimeException("Product not found"));
+
+        Address address = addressRepository.findById(request.getAddressId())
+                .orElseThrow(() -> new RuntimeException("Address not found"));
+
+        CartItem item = new CartItem();
+
+        item.setProductId(product.getId());
+        item.setProductName(product.getName());
+        item.setPrice(product.getPrice());
+        item.setQuantity(request.getQuantity());
+
         item.setSubTotal(item.getPrice() * item.getQuantity());
 
         Order order = new Order();
+
         order.setCustomerId(customerId);
         order.setItems(List.of(item));
         order.setTotalAmount(item.getSubTotal());
+
         order.setOrderStatus("PLACED");
         order.setAddress(address);
+
         order.setPaymentStatus("PENDING");
         order.setOrderedAt(LocalDateTime.now());
 
@@ -46,6 +72,7 @@ public class OrderController {
     @GetMapping("/my-orders")
     @PreAuthorize("hasRole('CUSTOMER')")
     public List<Order> getMyOrders(Authentication authentication) {
+
         return orderRepository.findByCustomerId(authentication.getName());
     }
 

@@ -1,9 +1,11 @@
 package com.example.ECommerce.controller;
 
+import com.example.ECommerce.DTO.CheckoutRequest;
 import com.example.ECommerce.Model.Address;
 import com.example.ECommerce.Model.Cart;
 import com.example.ECommerce.Model.CartItem;
 import com.example.ECommerce.Model.Order;
+import com.example.ECommerce.repositories.AddressRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
@@ -17,11 +19,14 @@ import java.time.LocalDateTime;
 public class CartController {
     private final CartRepository cartRepository;
     private final OrderRepository orderRepository;
+    private final AddressRepository addressRepository;
 
     public CartController(CartRepository cartRepository,
-                          OrderRepository orderRepository) {
+                          OrderRepository orderRepository,
+                          AddressRepository addressRepository) {
         this.cartRepository = cartRepository;
         this.orderRepository = orderRepository;
+        this.addressRepository = addressRepository;
     }
 
     // ADD TO CART
@@ -83,13 +88,17 @@ public class CartController {
     // CHECKOUT
     @PostMapping("/checkout")
     @PreAuthorize("hasRole('CUSTOMER')")
-    public Order checkout(@RequestBody Address address,
+    public Order checkout(@RequestBody CheckoutRequest request,
                           Authentication authentication) {
 
         String customerId = authentication.getName();
+        String addressId = request.getAddressId();
 
         Cart cart = cartRepository.findBycustomerId(customerId)
                 .orElseThrow(() -> new RuntimeException("Cart empty"));
+
+        Address address = addressRepository.findById(addressId)
+                .orElseThrow(() -> new RuntimeException("address not found"));
 
         Order order = new Order();
         order.setCustomerId(customerId);
