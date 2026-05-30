@@ -1,10 +1,12 @@
 package com.example.ECommerce.Model;
 
+import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.time.LocalDateTime;
 import java.util.List;
-
+@Data
 @Document(collection = "user")
 public class User {
 
@@ -15,6 +17,9 @@ public class User {
     private int age;
     private String email;
     private String password;
+    private String otp;
+    private String phone;
+    private LocalDateTime otpExpiryTime;
 
 
     // 🔐 REQUIRED FOR SPRING SECURITY

@@ -15,7 +15,7 @@ public class Order {
 
     private String customerId;
     private String sellerId;
-    private String orderStatus;
+    private OrderStatus orderStatus;
     private String paymentStatus;
     private List<CartItem> items;
     private double totalAmount;

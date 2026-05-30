@@ -51,4 +51,17 @@ public class AdminController {
     public List<User> getAllUsers() {
         return userRepository.findAll();
     }
+
+    @DeleteMapping("/users/{userId}")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteUser(@PathVariable String userId) {
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() ->
+                        new RuntimeException("User not found"));
+
+        userRepository.delete(user);
+
+        return "User deleted successfully";
+    }
 }

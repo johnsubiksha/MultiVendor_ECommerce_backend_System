@@ -56,4 +56,6 @@ public class SellerProductController {
         productservice.deleteProduct(productId, sellerId);
         return "Product deleted successfully";
     }
+
+
 }
