@@ -1,10 +1,7 @@
 package com.example.ECommerce.controller;
 
 import com.example.ECommerce.DTO.CheckoutRequest;
-import com.example.ECommerce.Model.Address;
-import com.example.ECommerce.Model.Cart;
-import com.example.ECommerce.Model.CartItem;
-import com.example.ECommerce.Model.Order;
+import com.example.ECommerce.Model.*;
 import com.example.ECommerce.repositories.AddressRepository;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.Authentication;
@@ -106,7 +103,7 @@ public class CartController {
         order.setTotalAmount(cart.getTotalAmount());
         order.setOrderStatus("PLACED");
         order.setAddress(address);
-        order.setPaymentStatus("PENDING");
+        order.setPaymentStatus(PaymentStatus.PENDING);
         order.setOrderedAt(LocalDateTime.now());
 
         Order savedOrder = orderRepository.save(order);

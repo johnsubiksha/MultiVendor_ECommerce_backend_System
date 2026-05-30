@@ -1,10 +1,8 @@
 package com.example.ECommerce.controller;
 
 import com.example.ECommerce.DTO.BuyNowRequest;
-import com.example.ECommerce.Model.Address;
-import com.example.ECommerce.Model.CartItem;
-import com.example.ECommerce.Model.Order;
-import com.example.ECommerce.Model.Product;
+import com.example.ECommerce.Model.*;
+import com.example.ECommerce.Model.PaymentStatus;
 import com.example.ECommerce.repositories.AddressRepository;
 import com.example.ECommerce.repositories.OrderRepository;
 import com.example.ECommerce.repositories.ProductRepository;
@@ -62,7 +60,7 @@ public class OrderController {
         order.setOrderStatus("PLACED");
         order.setAddress(address);
 
-        order.setPaymentStatus("PENDING");
+        order.setPaymentStatus(PaymentStatus.PENDING);
         order.setOrderedAt(LocalDateTime.now());
 
         return orderRepository.save(order);
