@@ -45,4 +45,10 @@ public class AdminController {
     public List<Seller> getPendingSellerRequest() {
         return sellerRepository.findByApprovedFalse();
     }
+
+    @GetMapping("/users")
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<User> getAllUsers() {
+        return userRepository.findAll();
+    }
 }

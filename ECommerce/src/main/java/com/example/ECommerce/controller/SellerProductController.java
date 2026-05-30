@@ -18,9 +18,7 @@ public class SellerProductController {
 
     @PostMapping
     @PreAuthorize("hasRole('SELLER')")
-    public Product addProduct(
-            @RequestBody Product product,
-            Authentication authentication) {
+    public Product addProduct(@RequestBody Product product, Authentication authentication) {
 
         String sellerId = authentication.getName();
         return productservice.addProduct(product, sellerId);

@@ -40,7 +40,7 @@ public class AuthController {
         return "Signup successful";
     }
 
-    @PostMapping("/login")
+    @PostMapping("/signin")
     public String login(@RequestBody User user) {
         User dbUser = repo.findByEmail(user.getEmail())
                 .orElseThrow(() -> new RuntimeException("User not found"));

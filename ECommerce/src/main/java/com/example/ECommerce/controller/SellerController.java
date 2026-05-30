@@ -48,7 +48,7 @@ public class SellerController {
         return ResponseEntity.ok("Seller apply request submitted");
     }
 
-    @GetMapping("/me")
+    @GetMapping("/profile")
     @PreAuthorize("hasRole('SELLER')")
     public Map<String, Object> getMySellerProfile(Authentication authentication) {
 
