@@ -1,10 +1,7 @@
 package com.example.ECommerce.controller;
 
 import com.example.ECommerce.DTO.BuyNowRequest;
-import com.example.ECommerce.Model.Address;
-import com.example.ECommerce.Model.CartItem;
-import com.example.ECommerce.Model.Order;
-import com.example.ECommerce.Model.Product;
+import com.example.ECommerce.Model.*;
 import com.example.ECommerce.repositories.AddressRepository;
 import com.example.ECommerce.repositories.OrderRepository;
 import com.example.ECommerce.repositories.ProductRepository;
@@ -59,10 +56,10 @@ public class OrderController {
         order.setItems(List.of(item));
         order.setTotalAmount(item.getSubTotal());
 
-        order.setOrderStatus("PLACED");
+        order.setOrderStatus(OrderStatus.CONFIRMED);
         order.setAddress(address);
 
-        order.setPaymentStatus("PENDING");
+        order.setPaymentStatus(PaymentStatus.PENDING);
         order.setOrderedAt(LocalDateTime.now());
 
         return orderRepository.save(order);
@@ -80,14 +77,14 @@ public class OrderController {
     @PutMapping("/{orderId}/status")
     @PreAuthorize("hasRole('SELLER')")
     public Order updateStatus(@PathVariable String orderId,
-                              @RequestParam String status) {
+                              @RequestParam OrderStatus status) {
 
         Order order = orderRepository.findById(orderId)
                 .orElseThrow(() -> new RuntimeException("Not found"));
 
         order.setOrderStatus(status);
 
-        if ("DELIVERED".equals(status)) {
+        if ((OrderStatus.DELIVERED).equals(status)) {
             order.setDeliveredAt(LocalDateTime.now());
         }
 

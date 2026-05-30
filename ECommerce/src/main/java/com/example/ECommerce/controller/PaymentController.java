@@ -41,7 +41,7 @@ public class PaymentController {
         }
         else {
             order.setPaymentStatus(PaymentStatus.SUCCESS);
-            order.setPaidAt(LocalDateTime.now());
+            order.setPaidAT(LocalDateTime.now());
         }
         return orderRepository.save(order);
     }

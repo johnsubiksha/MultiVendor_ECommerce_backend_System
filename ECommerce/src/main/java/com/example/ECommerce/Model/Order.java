@@ -15,11 +15,13 @@ public class Order {
 
     private String customerId;
     private String sellerId;
-    private String orderStatus;
-    private String paymentStatus;
+    private OrderStatus orderStatus;
+    private PaymentStatus paymentStatus;
+    private PaymentMethod paymentMethod;
     private List<CartItem> items;
     private double totalAmount;
     private LocalDateTime orderedAt;
     private LocalDateTime deliveredAt;
+    private LocalDateTime paidAT;
     private Address address;
 }
