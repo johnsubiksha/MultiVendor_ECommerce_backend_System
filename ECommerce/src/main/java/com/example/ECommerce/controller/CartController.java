@@ -103,7 +103,7 @@ public class CartController {
         order.setTotalAmount(cart.getTotalAmount());
         order.setOrderStatus(OrderStatus.CONFIRMED);
         order.setAddress(address);
-        order.setPaymentStatus("PENDING");
+        order.setPaymentStatus(PaymentStatus.PENDING);
         order.setOrderedAt(LocalDateTime.now());
 
         Order savedOrder = orderRepository.save(order);
