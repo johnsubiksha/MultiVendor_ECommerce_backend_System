@@ -4,7 +4,7 @@ import com.example.ECommerce.Model.Seller;
 import com.example.ECommerce.Model.User;
 import com.example.ECommerce.repositories.SellerRepository;
 import com.example.ECommerce.repositories.UserRepository;
-import com.example.ECommerce.Model.Role;
+import com.example.ECommerce.Enum.Role;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 

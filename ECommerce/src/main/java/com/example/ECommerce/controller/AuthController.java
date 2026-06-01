@@ -3,7 +3,7 @@ package com.example.ECommerce.controller;
 import com.example.ECommerce.DTO.ForgotPasswordRequest;
 import com.example.ECommerce.DTO.ResetPasswordRequest;
 import com.example.ECommerce.DTO.VerifyOtpRequest;
-import com.example.ECommerce.Model.Role;
+import com.example.ECommerce.Enum.Role;
 import com.example.ECommerce.Model.User;
 import com.example.ECommerce.repositories.UserRepository;
 import com.example.ECommerce.utils.JwtUtil;

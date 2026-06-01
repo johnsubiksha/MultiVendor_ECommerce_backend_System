@@ -1,5 +1,8 @@
 package com.example.ECommerce.Model;
 
+import com.example.ECommerce.Enum.OrderStatus;
+import com.example.ECommerce.Enum.PaymentMethod;
+import com.example.ECommerce.Enum.PaymentStatus;
 import lombok.Data;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;

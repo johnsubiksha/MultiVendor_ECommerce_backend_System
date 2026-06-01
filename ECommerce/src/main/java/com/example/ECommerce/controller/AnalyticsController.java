@@ -1,7 +1,7 @@
 package com.example.ECommerce.controller;
 
 import com.example.ECommerce.Model.Order;
-import com.example.ECommerce.Model.OrderStatus;
+import com.example.ECommerce.Enum.OrderStatus;
 import com.example.ECommerce.Model.Product;
 import com.example.ECommerce.Model.Seller;
 import com.example.ECommerce.repositories.OrderRepository;

@@ -1,6 +1,6 @@
 package com.example.ECommerce.config;
 
-import com.example.ECommerce.Model.Role;
+import com.example.ECommerce.Enum.Role;
 import com.example.ECommerce.Model.User;
 import com.example.ECommerce.repositories.UserRepository;
 import jakarta.annotation.PostConstruct;

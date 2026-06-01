@@ -1,6 +1,6 @@
 package com.example.ECommerce.DTO;
 
-import com.example.ECommerce.Model.PaymentMethod;
+import com.example.ECommerce.Enum.PaymentMethod;
 import lombok.Data;
 
 @Data

@@ -1,4 +1,4 @@
-package com.example.ECommerce.Model;
+package com.example.ECommerce.Enum;
 
 public enum OrderStatus {
     CONFIRMED,

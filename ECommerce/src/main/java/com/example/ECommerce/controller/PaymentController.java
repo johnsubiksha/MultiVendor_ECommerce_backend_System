@@ -2,8 +2,8 @@ package com.example.ECommerce.controller;
 
 import com.example.ECommerce.DTO.PaymentRequest;
 import com.example.ECommerce.Model.Order;
-import com.example.ECommerce.Model.PaymentMethod;
-import com.example.ECommerce.Model.PaymentStatus;
+import com.example.ECommerce.Enum.PaymentMethod;
+import com.example.ECommerce.Enum.PaymentStatus;
 import com.example.ECommerce.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;

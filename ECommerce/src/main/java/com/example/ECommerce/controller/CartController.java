@@ -1,6 +1,8 @@
 package com.example.ECommerce.controller;
 
 import com.example.ECommerce.DTO.CheckoutRequest;
+import com.example.ECommerce.Enum.OrderStatus;
+import com.example.ECommerce.Enum.PaymentStatus;
 import com.example.ECommerce.Model.*;
 import com.example.ECommerce.repositories.AddressRepository;
 import org.springframework.security.access.prepost.PreAuthorize;

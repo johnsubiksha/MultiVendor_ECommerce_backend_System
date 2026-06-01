@@ -1,6 +1,6 @@
 package com.example.ECommerce.DTO;
 
-import com.example.ECommerce.Model.Role;
+import com.example.ECommerce.Enum.Role;
 
 public class UserProfileResponse {
 
