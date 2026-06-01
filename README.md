@@ -1,277 +1,488 @@
 # 🛒 Multi-Vendor E-Commerce Backend System
 
-A robust, scalable **REST API backend** for a multi-vendor e-commerce platform built with **Java Spring Boot**. Supports three distinct user roles — Customer, Seller, and Admin — with secure JWT-based authentication and role-based access control.
+A scalable and secure **REST API backend** for a Multi-Vendor E-Commerce Platform built using **Java Spring Boot**, **MongoDB Atlas**, and **JWT Authentication**.
+
+The system supports three user roles:
+
+* **Customer**
+* **Seller**
+* **Admin**
+
+Each role has dedicated functionalities with **Role-Based Access Control (RBAC)** to ensure secure access to resources.
 
 ---
 
-## 📋 Table of Contents
+# 📋 Table of Contents
 
-- [Project Overview](#project-overview)
-- [Features](#features)
-- [Technology Stack](#technology-stack)
-- [User Roles](#user-roles)
-- [Authentication & Authorization](#authentication--authorization)
-- [API Documentation](#api-documentation)
-- [Models](#models)
-- [Security](#security)
-- [Installation & Setup](#installation--setup)
-- [Running the Application](#running-the-application)
-
----
-
-## 📌 Project Overview
-
-The **Multi-Vendor E-Commerce Backend System** is a backend-only REST API application that powers a full-featured e-commerce platform. It enables customers to browse and purchase products, sellers to manage their inventory, and admins to oversee the platform — all secured through JWT authentication and role-based authorization.
+* [Project Overview](#project-overview)
+* [Features](#features)
+* [Technology Stack](#technology-stack)
+* [User Roles](#user-roles)
+* [Authentication & Authorization](#authentication--authorization)
+* [API Documentation](#api-documentation)
+* [Data Models](#data-models)
+* [Security Features](#security-features)
+* [Installation & Setup](#installation--setup)
+* [Running the Application](#running-the-application)
+* [Testing the API](#testing-the-api)
 
 ---
 
-## ✨ Features
+# 📌 Project Overview
 
-### 👤 Customer
-- Register and log in securely
-- Browse, search, and filter products
-- Manage shopping cart
-- Place orders instantly (Buy Now)
-- Manage delivery addresses
-- Write and read product reviews
-- Maintain a wishlist
-- Apply to become a seller
+The Multi-Vendor E-Commerce Backend System provides a complete backend solution for an online marketplace where multiple sellers can manage and sell products while customers can browse, purchase, review, and wishlist products.
 
-### 🏪 Seller
-- Apply for seller role
-- Manage product listings (Add, Update, Delete)
-- View seller dashboard and profile
-- Manage and update order statuses
+The application includes:
 
-### 🛡️ Admin
-- Approve or reject seller applications
-- View all platform users
-- Monitor pending seller requests
+* User Authentication & Authorization
+* Product Management
+* Seller Management
+* Cart & Checkout
+* Order Processing
+* Payment Handling
+* Wishlist Management
+* Review System
+* Address Management
+* Admin Analytics Dashboard
 
 ---
 
-## 🛠️ Technology Stack
+# ✨ Features
 
-| Technology | Purpose |
-|---|---|
-| **Java** | Core programming language |
-| **Spring Boot** | Application framework |
-| **Spring Security** | Authentication & authorization |
-| **JWT (JSON Web Token)** | Stateless token-based auth |
-| **MongoDB Atlas** | Cloud NoSQL database |
-| **Maven** | Build and dependency management |
+## 👤 Customer Features
 
----
-
-## 👥 User Roles
-
-The system defines three roles via the `Role` enum:
-
-| Role | Description |
-|---|---|
-| `CUSTOMER` | Default role on registration. Can shop, review, wishlist, and apply for seller status. |
-| `SELLER` | Approved vendors who can list and manage products and orders. |
-| `ADMIN` | Platform administrators with full oversight of users and seller applications. |
+* User Registration & Login
+* Forgot Password & Password Reset via OTP
+* Browse Products
+* Search Products
+* Filter Products by Category
+* View Product Stock Availability
+* Add Products to Cart
+* Checkout Cart
+* Buy Products Instantly
+* Manage Delivery Addresses
+* Add Product Reviews
+* Maintain Wishlist
+* Manage User Profile
+* Change Password
+* Apply for Seller Role
 
 ---
 
-## 🔐 Authentication & Authorization
+## 🏪 Seller Features
 
-- All endpoints (except `/auth/signup` and `/auth/signin`) require a valid **JWT Bearer Token** in the `Authorization` header.
-- Tokens are issued upon successful login and must be included in subsequent requests.
-- **Role-Based Access Control (RBAC)** restricts endpoint access based on the authenticated user's role.
+* Apply for Seller Role
+* Manage Product Listings
 
-**Request Header Format:**
+  * Add Products
+  * Update Products
+  * Delete Products
+* View Seller Dashboard
+* View Seller Profile
+* Manage Order Status
+
+---
+
+## 🛡️ Admin Features
+
+* Approve Seller Applications
+* View Pending Seller Requests
+* Manage Platform Users
+* Monitor Revenue Analytics
+* Monitor Order Statistics
+* Track Top Products
+* Track Seller Performance
+* Access Dashboard Analytics
+
+---
+
+# 🛠️ Technology Stack
+
+| Technology      | Purpose                        |
+| --------------- | ------------------------------ |
+| Java 17         | Core Programming Language      |
+| Spring Boot     | Backend Framework              |
+| Spring Security | Authentication & Authorization |
+| JWT             | Stateless Authentication       |
+| MongoDB Atlas   | Cloud NoSQL Database           |
+| Maven           | Dependency Management          |
+| Lombok          | Boilerplate Code Reduction     |
+
+---
+
+# 👥 User Roles
+
+## CUSTOMER
+
+Default role assigned during registration.
+
+Permissions:
+
+* Browse Products
+* Place Orders
+* Manage Cart
+* Add Reviews
+* Manage Wishlist
+* Manage Addresses
+* Apply for Seller Role
+
+---
+
+## SELLER
+
+Approved vendors on the platform.
+
+Permissions:
+
+* Manage Products
+* View Dashboard
+* Manage Orders
+* Access Seller Profile
+
+---
+
+## ADMIN
+
+Platform administrators.
+
+Permissions:
+
+* Manage Users
+* Approve Sellers
+* View Analytics
+* Monitor Platform Performance
+
+---
+
+# 🔐 Authentication & Authorization
+
+The application uses **JWT (JSON Web Token)** for authentication.
+
+All protected endpoints require:
+
+```http
+Authorization: Bearer <jwt_token>
 ```
-Authorization: Bearer <your_jwt_token>
+
+## Public Endpoints
+
+```http
+POST /auth/signup
+POST /auth/signin
+POST /auth/forgot-password
+POST /auth/verify-otp
+POST /auth/reset-password
+```
+
+All other endpoints require authentication.
+
+Role-based restrictions are enforced using Spring Security.
+
+---
+
+# 📖 API Documentation
+
+---
+
+# 1. Authentication Controller
+
+**Base Path:** `/auth`
+
+| Method | Endpoint           | Description                        |
+| ------ | ------------------ | ---------------------------------- |
+| POST   | `/signup`          | Register a new user                |
+| POST   | `/signin`          | Authenticate user and generate JWT |
+| POST   | `/forgot-password` | Send OTP to email                  |
+| POST   | `/verify-otp`      | Verify OTP                         |
+| POST   | `/reset-password`  | Reset password                     |
+
+---
+
+# 2. Admin Controller
+
+**Base Path:** `/api/admin`
+
+🔒 Requires ADMIN Role
+
+| Method | Endpoint                   |
+| ------ | -------------------------- |
+| PUT    | `/approve-seller/{userId}` |
+| GET    | `/seller-requests`         |
+| GET    | `/users`                   |
+
+---
+
+# 3. Seller Controller
+
+**Base Path:** `/api/seller`
+
+🔒 Requires Authentication
+
+| Method | Endpoint     |
+| ------ | ------------ |
+| POST   | `/apply`     |
+| GET    | `/profile`   |
+| GET    | `/dashboard` |
+
+---
+
+# 4. Product Controller
+
+**Base Path:** `/api/product`
+
+🔒 Requires Authentication
+
+## Get All Products
+
+```http
+GET /api/product/all
+```
+
+### Query Parameters
+
+| Parameter | Default |
+| --------- | ------- |
+| page      | 0       |
+| size      | 10      |
+| sortBy    | name    |
+| direction | asc     |
+
+---
+
+## Get Product Stock
+
+```http
+GET /api/product/stock/{productId}
 ```
 
 ---
 
-## 📖 API Documentation
+## Search Products
 
-### 1. Auth — `/auth`
+```http
+GET /api/product/search?keyword=laptop
+```
 
-| Method | Endpoint | Description | Auth Required |
-|---|---|---|---|
-| `POST` | `/auth/signup` | Register a new user | ❌ |
-| `POST` | `/auth/signin` | Login and receive JWT token | ❌ |
+### Query Parameters
 
----
-
-### 2. Admin — `/api/admin`
-
-> 🔒 Requires `ADMIN` role
-
-| Method | Endpoint | Description |
-|---|---|---|
-| `PUT` | `/api/admin/approve-seller/{userId}` | Approve a pending seller request |
-| `GET` | `/api/admin/seller-requests` | Get all pending seller requests |
-| `GET` | `/api/admin/users` | Get all registered users |
+| Parameter | Default |
+| --------- | ------- |
+| page      | 0       |
+| size      | 10      |
+| sortBy    | name    |
+| direction | asc     |
 
 ---
 
-### 3. Seller — `/api/seller`
+## Filter Products
 
-> 🔒 Requires `SELLER` or `CUSTOMER` role (role-specific access applies)
+```http
+GET /api/product/filter?category=Electronics
+```
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `POST` | `/api/seller/roleApply` | Customer applies for seller role |
-| `GET` | `/api/seller/profile` | Get seller profile |
-| `GET` | `/api/seller/dashboard` | Get seller dashboard |
+### Query Parameters
 
----
-
-### 4. Product — `/api/product`
-
-> 🔒 Requires authentication
-
-| Method | Endpoint | Query Params | Description |
-|---|---|---|---|
-| `GET` | `/api/product/search` | `keyword` | Search products by keyword |
-| `GET` | `/api/product/filter` | `category` | Filter products by category |
+| Parameter | Default |
+| --------- | ------- |
+| page      | 0       |
+| size      | 10      |
+| sortBy    | name    |
+| direction | asc     |
 
 ---
 
-### 5. Seller Product Management — `/api/seller/product`
+# 5. Seller Product Controller
 
-> 🔒 Requires `SELLER` role
+**Base Path:** `/api/seller/product`
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `GET` | `/api/seller/product/` | Get all products listed by the seller |
-| `POST` | `/api/seller/product/` | Add a new product |
-| `PATCH` | `/api/seller/product/{productId}` | Update an existing product |
-| `DELETE` | `/api/seller/product/{productId}` | Delete a product |
+🔒 Requires SELLER Role
 
----
-
-### 6. Order — `/api/order`
-
-> 🔒 Requires authentication
-
-| Method | Endpoint | Query Params / Body | Description |
-|---|---|---|---|
-| `POST` | `/api/order/buy-now` | — | Purchase a product immediately |
-| `GET` | `/api/order/my-orders` | — | Get all orders for the authenticated user |
-| `PUT` | `/api/order/{orderId}/status` | `status` (param) | Update the status of an order |
+| Method | Endpoint       | Description         |
+| ------ | -------------- | ------------------- |
+| GET    | `/`            | Get Seller Products |
+| POST   | `/`            | Add Product         |
+| PATCH  | `/{productId}` | Update Product      |
+| DELETE | `/{productId}` | Delete Product      |
 
 ---
 
-### 7. Cart — `/api/cart`
+# 6. Order Controller
 
-> 🔒 Requires `CUSTOMER` role
+**Base Path:** `/api/order`
 
-| Method | Endpoint | Body | Description |
-|---|---|---|---|
-| `POST` | `/api/cart/add` | `CartItem` | Add a product to the cart |
-| `GET` | `/api/cart/` | — | View current cart |
-| `DELETE` | `/api/cart/remove/{productId}` | — | Remove a product from the cart |
-| `POST` | `/api/cart/checkout` | `CheckoutRequest` | Checkout and place order from cart |
+🔒 Requires Authentication
 
----
-
-### 8. Address — `/api/address`
-
-> 🔒 Requires authentication
-
-| Method | Endpoint | Description |
-|---|---|---|
-| `POST` | `/api/address/` | Add a new delivery address |
-| `GET` | `/api/address/` | Get all addresses for the user |
-| `DELETE` | `/api/address/{id}` | Delete an address by ID |
+| Method | Endpoint            |
+| ------ | ------------------- |
+| POST   | `/buy-now`          |
+| GET    | `/my-orders`        |
+| PUT    | `/{orderId}/status` |
 
 ---
 
-### 9. Review — `/api/reviews`
+# 7. Cart Controller
 
-> 🔒 Requires authentication
+**Base Path:** `/api/cart`
 
-| Method | Endpoint | Description |
-|---|---|---|
-| `POST` | `/api/reviews/{productId}` | Add a review for a product |
-| `GET` | `/api/reviews/{productId}` | Get all reviews for a product |
+🔒 Requires CUSTOMER Role
 
----
-
-### 10. Wishlist — `/api/wishlist`
-
-> 🔒 Requires `CUSTOMER` role
-
-| Method | Endpoint | Query Params | Description |
-|---|---|---|---|
-| `POST` | `/api/wishlist/add` | `productId` | Add a product to the wishlist |
-| `GET` | `/api/wishlist/` | — | Get the user's wishlist |
-| `DELETE` | `/api/wishlist/remove/{productId}` | — | Remove a product from the wishlist |
+| Method | Endpoint              |
+| ------ | --------------------- |
+| POST   | `/add`                |
+| GET    | `/`                   |
+| DELETE | `/remove/{productId}` |
+| POST   | `/checkout`           |
 
 ---
 
-## 🗂️ Models
+# 8. Address Controller
 
-The application uses the following data models stored in **MongoDB Atlas**:
+**Base Path:** `/api/address`
 
-| Model | Description |
-|---|---|
-| `User` | Stores user credentials, role, and profile information |
-| `Seller` | Extended seller profile linked to a user |
-| `Product` | Product details including seller, category, price, and stock |
-| `Order` | Order details including items, status, and buyer information |
-| `Cart` | Shopping cart linked to a customer user |
-| `CartItem` | Individual item entry within a cart |
-| `Address` | Delivery address associated with a user |
-| `Review` | Product review with rating and comment |
-| `Wishlist` | List of saved products for a user |
-| `Role` *(Enum)* | Enum defining user roles: `CUSTOMER`, `SELLER`, `ADMIN` |
+🔒 Requires Authentication
+
+| Method | Endpoint |
+| ------ | -------- |
+| POST   | `/`      |
+| GET    | `/`      |
+| DELETE | `/{id}`  |
 
 ---
 
-## 🔒 Security
+# 9. Review Controller
 
-- **Spring Security** — Provides the security filter chain and access control mechanisms.
-- **JWT Authentication** — Stateless token-based authentication. Tokens are signed with a secret key and validated on every protected request.
-- **Role-Based Access Control (RBAC)** — Endpoints are protected at the method or route level based on the user's assigned `Role`.
-- **Password Encoding** — Passwords are stored securely using BCrypt hashing.
-- **Stateless Sessions** — The application does not use HTTP sessions; all state is carried in the JWT.
+**Base Path:** `/api/reviews`
+
+🔒 Requires Authentication
+
+| Method | Endpoint       |
+| ------ | -------------- |
+| POST   | `/{productId}` |
+| GET    | `/{productId}` |
 
 ---
 
-## ⚙️ Installation & Setup
+# 10. Wishlist Controller
 
-### Prerequisites
+**Base Path:** `/api/wishlist`
 
-Ensure the following are installed on your system:
+🔒 Requires CUSTOMER Role
 
-- [Java 17+](https://adoptium.net/)
-- [Maven 3.8+](https://maven.apache.org/)
-- A [MongoDB Atlas](https://www.mongodb.com/cloud/atlas) account with a cluster configured
+| Method | Endpoint              |
+| ------ | --------------------- |
+| POST   | `/add`                |
+| GET    | `/`                   |
+| DELETE | `/remove/{productId}` |
 
-### 1. Clone the Repository
+---
+
+# 11. Payment Controller
+
+**Base Path:** `/api/payment`
+
+🔒 Requires Authentication
+
+| Method | Endpoint |
+| ------ | -------- |
+| POST   | `/pay`   |
+
+---
+
+# 12. Analytics Controller
+
+**Base Path:** `/api/admin/analytics`
+
+🔒 Requires ADMIN Role
+
+| Method | Endpoint        |
+| ------ | --------------- |
+| GET    | `/revenue`      |
+| GET    | `/dashboard`    |
+| GET    | `/orders`       |
+| GET    | `/top-products` |
+| GET    | `/top-sellers`  |
+
+---
+
+# 13. User Controller
+
+**Base Path:** `/api/user`
+
+🔒 Requires Authentication
+
+| Method | Endpoint           |
+| ------ | ------------------ |
+| GET    | `/profile`         |
+| PUT    | `/profile`         |
+| POST   | `/change-password` |
+
+---
+
+# 🗂️ Data Models
+
+The application uses the following MongoDB collections:
+
+* User
+* Seller
+* Product
+* Order
+* Cart
+* CartItem
+* Address
+* Review
+* Wishlist
+* Payment
+
+---
+
+# 🔒 Security Features
+
+* JWT Authentication
+* Spring Security Integration
+* BCrypt Password Encryption
+* Stateless Session Management
+* Role-Based Access Control (RBAC)
+* Secure API Endpoints
+
+---
+
+# ⚙️ Installation & Setup
+
+## Prerequisites
+
+* Java 17+
+* Maven 3.8+
+* MongoDB Atlas Account
+
+---
+
+## Clone Repository
 
 ```bash
 git clone https://github.com/your-username/multi-vendor-ecommerce-backend.git
+
 cd multi-vendor-ecommerce-backend
 ```
 
-### 2. Configure Environment Variables
+---
 
-Create or update `src/main/resources/application.properties` (or `application.yml`) with your configuration:
+## Configure Application Properties
 
 ```properties
-# MongoDB Atlas
-spring.data.mongodb.uri=mongodb+srv://<username>:<password>@<cluster>.mongodb.net/<database>?retryWrites=true&w=majority
+# MongoDB
+spring.data.mongodb.uri=mongodb+srv://<username>:<password>@cluster.mongodb.net/database
 
-# JWT Configuration
-app.jwt.secret=your_jwt_secret_key
+# JWT
+app.jwt.secret=your_jwt_secret
 app.jwt.expiration=86400000
 
-# Server Port
+# Server
 server.port=8080
 ```
 
-> ⚠️ **Never commit sensitive credentials to version control.** Use environment variables or a secrets manager in production.
+---
 
-### 3. Install Dependencies
+## Install Dependencies
 
 ```bash
 mvn clean install
@@ -279,51 +490,72 @@ mvn clean install
 
 ---
 
-## 🚀 Running the Application
+# 🚀 Running the Application
 
-### Run with Maven
+## Run Using Maven
 
 ```bash
 mvn spring-boot:run
 ```
 
-### Run the JAR directly
+---
+
+## Build and Run JAR
 
 ```bash
 mvn clean package
-java -jar target/multi-vendor-ecommerce-backend-0.0.1-SNAPSHOT.jar
+
+java -jar target/multi-vendor-ecommerce-backend.jar
 ```
 
-The API will be accessible at:
+---
 
-```
+Application will start on:
+
+```http
 http://localhost:8080
 ```
 
-### Testing the API
+---
 
-You can test the endpoints using tools like:
+# 🧪 Testing the API
 
-- [Postman](https://www.postman.com/)
-- [Insomnia](https://insomnia.rest/)
-- [curl](https://curl.se/)
+Recommended tools:
 
-**Example — Register a new user:**
+* Postman
+* Insomnia
+* Swagger UI (if configured)
+* cURL
+
+### Example Registration
+
 ```bash
 curl -X POST http://localhost:8080/auth/signup \
-  -H "Content-Type: application/json" \
-  -d '{"username": "john", "email": "john@example.com", "password": "secret123"}'
+-H "Content-Type: application/json" \
+-d '{
+  "username":"john",
+  "email":"john@example.com",
+  "password":"password123"
+}'
 ```
 
-**Example — Login and retrieve token:**
+### Example Login
+
 ```bash
 curl -X POST http://localhost:8080/auth/signin \
-  -H "Content-Type: application/json" \
-  -d '{"email": "john@example.com", "password": "secret123"}'
+-H "Content-Type: application/json" \
+-d '{
+  "email":"john@example.com",
+  "password":"password123"
+}'
 ```
 
 ---
 
 <div align="center">
-  <sub>Built with ☕ Java & Spring Boot</sub>
+
+### Built with ☕ Java, Spring Boot & MongoDB Atlas
+
+Secure • Scalable • Production Ready
+
 </div>
