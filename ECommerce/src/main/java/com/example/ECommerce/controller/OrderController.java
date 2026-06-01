@@ -92,4 +92,52 @@ public class OrderController {
 
         return orderRepository.save(order);
     }
+
+    @PutMapping("/{orderId}/approve-return")
+    @PreAuthorize("hasRole('SELLER')")
+    public Order approveReturn(@PathVariable String orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        if (order.getOrderStatus() != OrderStatus.RETURN_REQUESTED) {
+            throw new RuntimeException("No return request found");
+        }
+
+        order.setOrderStatus(OrderStatus.RETURNED);
+
+        return orderRepository.save(order);
+    }
+
+    @PutMapping("/{orderId}/reject-return")
+    @PreAuthorize("hasRole('SELLER')")
+    public Order rejectReturn(@PathVariable String orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        if (order.getOrderStatus() != OrderStatus.RETURN_REQUESTED) {
+            throw new RuntimeException("No return request found");
+        }
+
+        order.setOrderStatus(OrderStatus.RETURN_REJECTED);
+
+        return orderRepository.save(order);
+    }
+
+    @PutMapping("/{orderId}/mark-returned")
+    @PreAuthorize("hasRole('SELLER')")
+    public Order markReturned(@PathVariable String orderId) {
+
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new RuntimeException("Order not found"));
+
+        if (order.getOrderStatus() != OrderStatus.RETURN_APPROVED) {
+            throw new RuntimeException("Return not approved");
+        }
+
+        order.setOrderStatus(OrderStatus.RETURNED);
+
+        return orderRepository.save(order);
+    }
 }
